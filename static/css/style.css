@@ -709,3 +709,237 @@ tr:hover {
     }
 
 }
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1024px) {
+
+    .container {
+        width: 94%;
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .page-header {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .header-actions {
+        flex-wrap: wrap;
+    }
+
+    .filter-bar form {
+        flex-wrap: wrap;
+    }
+
+    .filter-group {
+        flex: 1 1 200px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 900px;
+    }
+
+}
+
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 768px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    /* Header */
+
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    .header-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .header-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+
+    /* Buttons */
+
+    .btn {
+        min-height: 42px;
+        padding: 10px 14px;
+    }
+
+
+    /* Filters */
+
+    .filter-bar {
+        padding: 15px;
+    }
+
+    .filter-bar form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .filter-group {
+        width: 100%;
+        flex: none;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .filter-bar .btn {
+        width: 100%;
+    }
+
+
+    /* Tables */
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        border-radius: 8px;
+    }
+
+    table {
+        min-width: 850px;
+        white-space: nowrap;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+
+    /* Forms */
+
+    form {
+        width: 100%;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    input,
+    select,
+    textarea {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+
+    /* Cards */
+
+    .card-container,
+    .cards,
+    .kpi-container,
+    .kpi-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+
+    /* Dashboard */
+
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .chart-container {
+        width: 100%;
+        overflow: hidden;
+    }
+
+
+    /* Request details */
+
+    .details-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+
+    /* Empty state */
+
+    .empty-state {
+        padding: 30px 15px;
+        text-align: center;
+    }
+
+}
+
+
+/* ---------- Small Mobile ---------- */
+
+@media (max-width: 480px) {
+
+    .container {
+        padding: 10px;
+    }
+
+    .page-header h1 {
+        font-size: 21px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+
+    .btn {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .view-btn {
+        padding: 7px 10px;
+        font-size: 12px;
+    }
+
+    .status {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+
+    .table-container {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+}
