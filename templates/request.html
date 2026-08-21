@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>New Request</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Talent Acquisition Request</h1>
+
+        <p class="subtitle">
+            Submit a new manpower / vacancy request
+        </p>
+        <div class="page-header">
+
+            <div>
+
+                <h1>New Request</h1>
+
+                <p class="subtitle">
+                    Submit a new talent acquisition request
+                </p>
+
+            </div>
+
+            <a href="/" class="btn secondary">
+                ← Home
+            </a>
+
+        </div>
+
+        <form action="/submit-request" method="POST">
+
+
+            <!-- Employee Details -->
+
+            <h2>Employee Details</h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Employee Name *</label>
+
+                    <input type="text" name="employee_name" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Employee ID</label>
+
+                    <input type="text" name="employee_id">
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="department">Department *</label>
+                    <select name="department" id="department" required>
+                        <option value="">Select Department</option>
+                        <option value="Sales">Sales</option>
+                        <option value="Service">Service</option>
+                        <option value="Finance & Accounts">Finance & Accounts</option>
+                        <option value="Human Resources">Human Resources</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="MIS & Data Analysis">MIS & Data Analysis</option>
+                        <option value="Administration">Administration</option>
+                        <option value="CRM">CRM</option>
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Designation</label>
+
+                    <input type="text" name="designation">
+
+                </div>
+
+            </div>
+
+
+            <!-- Vacancy Details -->
+
+            <h2>Vacancy Details</h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="position">Position Required *</label>
+                    <select name="position" id="position" required>
+                        <option value="">Select Position</option>
+                        <option value="Managing Director">Managing Director</option>
+                        <option value="General Manager">General Manager</option>
+                        <option value="Branch Manager">Branch Manager</option>
+                        <option value="Assistant Manager">Assistant Manager</option>
+                        <option value="Team Leader">Team Leader</option>
+                        <option value="Sales Executive">Sales Executive</option>
+                        <option value="Sales Consultant">Sales Consultant</option>
+                        <option value="Service Manager">Service Manager</option>
+                        <option value="Service Advisor">Service Advisor</option>
+                        <option value="Service Technician">Service Technician</option>
+                        <option value="Finance Executive">Finance Executive</option>
+                        <option value="Accountant">Accountant</option>
+                        <option value="HR Executive">HR Executive</option>
+                        <option value="HR Manager">HR Manager</option>
+                        <option value="Marketing Executive">Marketing Executive</option>
+                        <option value="MIS Executive">MIS Executive</option>
+                        <option value="Data Analyst">Data Analyst</option>
+                        <option value="IT Executive">IT Executive</option>
+                        <option value="CRM Executive">CRM Executive</option>
+                        <option value="Administrative Executive">Administrative Executive</option>
+                        <option value="Office Assistant">Office Assistant</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Vacancy Reason *</label>
+
+                    <select name="vacancy_reason" required>
+
+                        <option value="">
+                            Select Reason
+                        </option>
+
+                        <option value="New Position">
+                            New Position
+                        </option>
+
+                        <option value="Replacement">
+                            Replacement
+                        </option>
+
+                        <option value="Additional Requirement">
+                            Additional Requirement
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Number of Positions *</label>
+
+                    <input type="number" name="number_of_positions" min="1" value="1" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Employment Type</label>
+
+                    <select name="employment_type">
+
+                        <option value="">
+                            Select Type
+                        </option>
+
+                        <option>Full Time</option>
+                        <option>Part Time</option>
+                        <option>Contract</option>
+                        <option>Internship</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+
+                    <label for="location">Branch </label>
+
+                    <select name="location" id="location" required>
+                        <option value="">Select Branch</option>
+                        <option value="Kannur">Kannur</option>
+                        <option value="Calicut">Calicut</option>
+                        <option value="Peravoor">Peravoor</option>
+                        <option value="Pazhayangadi">Pazhayangadi</option>
+                        <option value="Kuttiady">Kuttiady</option>
+                        <option value="Vadakara">Vadakara</option>
+                        <option value="Cheruvathur">Cheruvathur</option>
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Required By</label>
+
+                    <input type="date" name="required_by">
+
+                </div>
+                
+                <div class="form-group">
+                    <label for="priority">Priority *</label>
+                    <select name="priority" id="priority" required>
+                        <option value="">Select Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <!-- Requirements -->
+
+            <h2>Candidate Requirements</h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Experience</label>
+
+                    <input type="text" name="experience" placeholder="Example: 2+ years">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Qualification</label>
+
+                    <input type="text" name="qualification">
+
+                </div>
+
+
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Required Skills</label>
+
+                <textarea name="skills" rows="4" placeholder="Enter required skills"></textarea>
+
+            </div>
+
+
+
+
+            <div class="form-actions">
+
+                <a href="/" class="btn secondary">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn primary">
+                    Submit Request
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

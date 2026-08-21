@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Candidate Processing</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                Candidate Processing
+            </h1>
+
+            <p class="subtitle">
+                Candidate ID: {{ candidate.candidate_id }}
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <a
+                href="/"
+                class="btn secondary"
+            >
+                ← Home
+            </a>
+
+            <a
+                href="/candidates"
+                class="btn secondary"
+            >
+                ← Back
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- CANDIDATE INFORMATION -->
+
+    <div class="details-card">
+
+        <h2>
+            Candidate Information
+        </h2>
+
+        <div class="details-grid">
+
+            <div>
+                <span>Candidate ID</span>
+                <strong>
+                    {{ candidate.candidate_id }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Candidate Name</span>
+                <strong>
+                    {{ candidate.candidate_name }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Job ID</span>
+                <strong>
+                    {{ candidate.job_id }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Position</span>
+                <strong>
+                    {{ job.position if job else "-" }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Department</span>
+                <strong>
+                    {{ job.department if job else "-" }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Email</span>
+                <strong>
+                    {{ candidate.email or "-" }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Phone</span>
+                <strong>
+                    {{ candidate.phone or "-" }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Qualification</span>
+                <strong>
+                    {{ candidate.qualification or "-" }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Experience</span>
+                <strong>
+                    {{ candidate.experience or "-" }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Source</span>
+                <strong>
+                    {{ candidate.source or "-" }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Application Date</span>
+                <strong>
+                    {{ candidate.application_date or "-" }}
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROCESSING -->
+
+    <form
+        action="{{ url_for(
+            'update_candidate_processing',
+            candidate_id=candidate.id
+        ) }}"
+        method="POST"
+    >
+
+        <div class="details-card">
+
+            <h2>
+                Recruitment Processing
+            </h2>
+
+            <div class="form-grid">
+
+
+                <!-- RECRUITER -->
+
+                <div class="form-group">
+
+                    <label>
+                        Recruiter
+                    </label>
+
+                    <input
+                        type="text"
+                        name="recruiter"
+                        value="{{ candidate.recruiter or '' }}"
+                    >
+
+                </div>
+
+
+                <!-- CANDIDATE STATUS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Candidate Status
+                    </label>
+
+                    <select name="candidate_status">
+
+                        <option
+                            value="Applied"
+                            {% if candidate.candidate_status == "Applied" %}
+                            selected
+                            {% endif %}
+                        >
+                            Applied
+                        </option>
+
+                        <option
+                            value="Shortlisted"
+                            {% if candidate.candidate_status == "Shortlisted" %}
+                            selected
+                            {% endif %}
+                        >
+                            Shortlisted
+                        </option>
+
+                        <option
+                            value="Interview Scheduled"
+                            {% if candidate.candidate_status == "Interview Scheduled" %}
+                            selected
+                            {% endif %}
+                        >
+                            Interview Scheduled
+                        </option>
+
+                        <option
+                            value="Interviewed"
+                            {% if candidate.candidate_status == "Interviewed" %}
+                            selected
+                            {% endif %}
+                        >
+                            Interviewed
+                        </option>
+
+                        <option
+                            value="Selected"
+                            {% if candidate.candidate_status == "Selected" %}
+                            selected
+                            {% endif %}
+                        >
+                            Selected
+                        </option>
+
+                        <option
+                            value="Rejected"
+                            {% if candidate.candidate_status == "Rejected" %}
+                            selected
+                            {% endif %}
+                        >
+                            Rejected
+                        </option>
+
+                        <option
+                            value="Joined"
+                            {% if candidate.candidate_status == "Joined" %}
+                            selected
+                            {% endif %}
+                        >
+                            Joined
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- INTERVIEW DATE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Interview Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="interview_date"
+                        value="{{ candidate.interview_date or '' }}"
+                    >
+
+                </div>
+
+
+                <!-- INTERVIEW RESULT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Interview Result
+                    </label>
+
+                    <select name="interview_result">
+
+                        <option value="">
+                            Select Result
+                        </option>
+
+                        <option
+                            value="Pending"
+                            {% if candidate.interview_result == "Pending" %}
+                            selected
+                            {% endif %}
+                        >
+                            Pending
+                        </option>
+
+                        <option
+                            value="Passed"
+                            {% if candidate.interview_result == "Passed" %}
+                            selected
+                            {% endif %}
+                        >
+                            Passed
+                        </option>
+
+                        <option
+                            value="Failed"
+                            {% if candidate.interview_result == "Failed" %}
+                            selected
+                            {% endif %}
+                        >
+                            Failed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SELECTION STATUS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Selection Status
+                    </label>
+
+                    <select name="selection_status">
+
+                        <option
+                            value="Pending"
+                            {% if candidate.selection_status == "Pending" %}
+                            selected
+                            {% endif %}
+                        >
+                            Pending
+                        </option>
+
+                        <option
+                            value="Selected"
+                            {% if candidate.selection_status == "Selected" %}
+                            selected
+                            {% endif %}
+                        >
+                            Selected
+                        </option>
+
+                        <option
+                            value="Rejected"
+                            {% if candidate.selection_status == "Rejected" %}
+                            selected
+                            {% endif %}
+                        >
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- JOINING DATE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Joining Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="joining_date"
+                        value="{{ candidate.joining_date or '' }}"
+                    >
+
+                </div>
+
+
+                <!-- REMARKS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Remarks
+                    </label>
+
+                    <input
+                        type="text"
+                        name="remarks"
+                        value="{{ candidate.remarks or '' }}"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="form-actions">
+
+            <a
+                href="/candidates"
+                class="btn secondary"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="btn primary"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

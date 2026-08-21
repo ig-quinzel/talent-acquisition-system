@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Talent Acquisition Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Talent Acquisition Dashboard</h1>
+
+            <p class="subtitle">
+                Recruitment requests, approvals and hiring analytics
+            </p>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <a
+                href="/"
+                class="btn secondary"
+            >
+                ← Home
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILTERS -->
+
+    <div class="dashboard-filters">
+
+        <form
+            method="GET"
+            action="/dashboard"
+        >
+
+            <div class="dashboard-filter">
+
+                <label>Department</label>
+
+                <select name="department">
+
+                    <option value="">
+                        All Departments
+                    </option>
+
+                    {% for item in departments %}
+
+                    <option
+                        value="{{ item }}"
+                        {% if selected_department == item %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ item }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="dashboard-filter">
+
+                <label>Vacancy Reason</label>
+
+                <select name="vacancy_reason">
+
+                    <option value="">
+                        All Reasons
+                    </option>
+
+                    {% for item in vacancy_reasons %}
+
+                    <option
+                        value="{{ item }}"
+                        {% if selected_vacancy_reason == item %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ item }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="dashboard-filter">
+
+                <label>Employment Type</label>
+
+                <select name="employment_type">
+
+                    <option value="">
+                        All Types
+                    </option>
+
+                    {% for item in employment_types %}
+
+                    <option
+                        value="{{ item }}"
+                        {% if selected_employment_type == item %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ item }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="dashboard-filter">
+
+                <label>HR Status</label>
+
+                <select name="hr_status">
+
+                    <option value="">
+                        All HR Statuses
+                    </option>
+
+                    {% for item in hr_statuses %}
+
+                    <option
+                        value="{{ item }}"
+                        {% if selected_hr_status == item %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ item }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="dashboard-filter">
+
+                <label>Final Status</label>
+
+                <select name="status">
+
+                    <option value="">
+                        All Final Statuses
+                    </option>
+
+                    {% for item in final_statuses %}
+
+                    <option
+                        value="{{ item }}"
+                        {% if selected_final_status == item %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ item }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="dashboard-filter-buttons">
+
+                <button
+                    type="submit"
+                    class="btn primary"
+                >
+                    Apply Filters
+                </button>
+
+                <a
+                    href="/dashboard"
+                    class="btn secondary"
+                >
+                    Reset
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- KPI CARDS -->
+
+    <div class="kpi-grid">
+
+
+        <div class="kpi-card">
+
+            <span>Total Requests</span>
+
+            <strong>
+                {{ total_requests }}
+            </strong>
+
+            <small>
+                Recruitment requests
+            </small>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <span>Approval 1 Pending</span>
+
+            <strong>
+                {{ pending_approval1 }}
+            </strong>
+
+            <small>
+                Awaiting first approval
+            </small>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <span>Approval 2 Pending</span>
+
+            <strong>
+                {{ pending_approval2 }}
+            </strong>
+
+            <small>
+                Awaiting second approval
+            </small>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <span>HR Processing</span>
+
+            <strong>
+                {{ hr_processing }}
+            </strong>
+
+            <small>
+                Active recruitment
+            </small>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <span>Approved</span>
+
+            <strong>
+                {{ approved_requests }}
+            </strong>
+
+            <small>
+                Successfully approved
+            </small>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <span>Rejected</span>
+
+            <strong>
+                {{ rejected_requests }}
+            </strong>
+
+            <small>
+                Rejected requests
+            </small>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- CHART ROW 1 -->
+
+    <div class="dashboard-chart-grid">
+
+
+        <div class="chart-card">
+
+            <h2>Requests by Department</h2>
+
+            <canvas id="departmentChart"></canvas>
+
+        </div>
+
+
+        <div class="chart-card">
+
+            <h2>Vacancy Reason</h2>
+
+            <canvas id="reasonChart"></canvas>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- CHART ROW 2 -->
+
+    <div class="dashboard-chart-grid">
+
+
+        <div class="chart-card">
+
+            <h2>Final Status</h2>
+
+            <canvas id="statusChart"></canvas>
+
+        </div>
+
+
+        <div class="chart-card">
+
+            <h2>HR Processing Status</h2>
+
+            <canvas id="hrChart"></canvas>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- CHART ROW 3 -->
+
+    <div class="dashboard-chart-grid">
+
+
+        <div class="chart-card">
+
+            <h2>Employment Type</h2>
+
+            <canvas id="employmentChart"></canvas>
+
+        </div>
+
+
+        <div class="chart-card">
+
+            <h2>Top Positions</h2>
+
+            <canvas id="positionChart"></canvas>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- MONTHLY TREND -->
+
+    <div class="chart-card full-width-chart">
+
+        <h2>Monthly Request Trend</h2>
+
+        <canvas id="monthlyChart"></canvas>
+
+    </div>
+
+
+    
+
+
+</div>
+
+
+<script>
+
+
+// =====================================
+// DEPARTMENT
+// =====================================
+
+new Chart(
+    document.getElementById("departmentChart"),
+    {
+        type: "bar",
+
+        data: {
+
+            labels: {{ department_labels | tojson }},
+
+            datasets: [{
+                label: "Requests",
+                data: {{ department_values | tojson }}
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+
+        }
+
+    }
+);
+
+
+// =====================================
+// VACANCY REASON
+// =====================================
+
+new Chart(
+    document.getElementById("reasonChart"),
+    {
+        type: "doughnut",
+
+        data: {
+
+            labels: {{ reason_labels | tojson }},
+
+            datasets: [{
+                data: {{ reason_values | tojson }}
+            }]
+
+        },
+
+        options: {
+            responsive: true
+        }
+
+    }
+);
+
+
+// =====================================
+// FINAL STATUS
+// =====================================
+
+new Chart(
+    document.getElementById("statusChart"),
+    {
+        type: "pie",
+
+        data: {
+
+            labels: {{ status_labels | tojson }},
+
+            datasets: [{
+                data: {{ status_values | tojson }}
+            }]
+
+        },
+
+        options: {
+            responsive: true
+        }
+
+    }
+);
+
+
+// =====================================
+// HR STATUS
+// =====================================
+
+new Chart(
+    document.getElementById("hrChart"),
+    {
+        type: "bar",
+
+        data: {
+
+            labels: {{ hr_labels | tojson }},
+
+            datasets: [{
+                label: "Requests",
+                data: {{ hr_values | tojson }}
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+
+        }
+
+    }
+);
+
+
+// =====================================
+// EMPLOYMENT TYPE
+// =====================================
+
+new Chart(
+    document.getElementById("employmentChart"),
+    {
+        type: "doughnut",
+
+        data: {
+
+            labels: {{ employment_labels | tojson }},
+
+            datasets: [{
+                data: {{ employment_values | tojson }}
+            }]
+
+        },
+
+        options: {
+            responsive: true
+        }
+
+    }
+);
+
+
+// =====================================
+// TOP POSITIONS
+// =====================================
+
+new Chart(
+    document.getElementById("positionChart"),
+    {
+        type: "bar",
+
+        data: {
+
+            labels: {{ position_labels | tojson }},
+
+            datasets: [{
+                label: "Requests",
+                data: {{ position_values | tojson }}
+            }]
+
+        },
+
+        options: {
+
+            indexAxis: "y",
+
+            responsive: true,
+
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+
+        }
+
+    }
+);
+
+
+// =====================================
+// MONTHLY TREND
+// =====================================
+
+new Chart(
+    document.getElementById("monthlyChart"),
+    {
+        type: "line",
+
+        data: {
+
+            labels: {{ monthly_labels | tojson }},
+
+            datasets: [{
+                label: "Requests",
+                data: {{ monthly_values | tojson }},
+                tension: 0.3
+            }]
+
+        },
+
+        options: {
+            responsive: true
+        }
+
+    }
+);
+
+
+
+</script>
+
+</body>
+
+</html>

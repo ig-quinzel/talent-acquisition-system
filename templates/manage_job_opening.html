@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Job Opening</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .job-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background: #f8f8ff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .approval-section {
+            border-top: 1px solid #ddd;
+            padding-top: 25px;
+            margin-top: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .save-btn {
+            margin-top: 30px;
+            width: 100%;
+            padding: 13px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #4338ca;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #4f46e5;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <a href="{{ url_for('job_openings') }}" class="back">
+            ← Back to Job Openings
+        </a>
+
+        <div class="card">
+
+            <h1>
+                Manage Job Opening — {{ job.job_id }}
+            </h1>
+
+            <!-- JOB INFORMATION -->
+
+            <div class="job-info">
+
+                <div class="info-box">
+                    <strong>Department</strong>
+                    {{ job.department }}
+                </div>
+
+                <div class="info-box">
+                    <strong>Position</strong>
+                    {{ job.position }}
+                </div>
+
+                <div class="info-box">
+                    <strong>Vacancy Reason</strong>
+                    {{ job.vacancy_reason }}
+                </div>
+
+                <div class="info-box">
+                    <strong>No. of Positions</strong>
+                    {{ job.number_of_positions }}
+                </div>
+
+                <div class="info-box">
+                    <strong>Employment Type</strong>
+                    {{ job.employment_type }}
+                </div>
+
+                <div class="info-box">
+                    <strong>Location</strong>
+                    {{ job.branch }}
+                </div>
+
+                <div class="info-box">
+                    <strong>Required By</strong>
+                    {{ job.required_by }}
+                </div>
+
+                <div class="info-box">
+                    <strong>Priority</strong>
+                    {{ job.priority }}
+                </div>
+
+            </div>
+
+
+            <form method="POST" action="{{ url_for(
+                  'update_job_opening',
+                  job_id=job.id
+              ) }}">
+
+
+                <!-- APPROVAL 1 -->
+
+                <div class="approval-section">
+
+                    <h2>Approval 1</h2>
+
+                    <label>
+                        Approval 1 Status
+                    </label>
+
+                    <select name="approval1_status" required>
+
+                        <option value="Pending" {% if job.approval1_status=="Pending" %} selected {% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="Approved" {% if job.approval1_status=="Approved" %} selected {% endif %}>
+                            Approved
+                        </option>
+
+                        <option value="Rejected" {% if job.approval1_status=="Rejected" %} selected {% endif %}>
+                            Rejected
+                        </option>
+
+                    </select>
+
+
+                    <label>
+                        Approval 1 Remarks
+                    </label>
+
+                    <textarea name="approval1_remarks"
+                        placeholder="Enter remarks...">{{ job.approval1_remarks or "" }}</textarea>
+
+                </div>
+
+
+                <!-- APPROVAL 2 -->
+
+                <div class="approval-section">
+
+                    <h2>Approval 2</h2>
+
+                    <label>
+                        Approval 2 Status
+                    </label>
+
+                    <select name="approval2_status" required>
+
+                        <option value="Pending" {% if job.approval2_status=="Pending" %} selected {% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="Approved" {% if job.approval2_status=="Approved" %} selected {% endif %}>
+                            Approved
+                        </option>
+
+                        <option value="Rejected" {% if job.approval2_status=="Rejected" %} selected {% endif %}>
+                            Rejected
+                        </option>
+
+                    </select>
+
+
+                    <label>
+                        Approval 2 Remarks
+                    </label>
+
+                    <textarea name="approval2_remarks"
+                        placeholder="Enter remarks...">{{ job.approval2_remarks or "" }}</textarea>
+
+                </div>
+
+
+                <!-- FINAL APPROVAL -->
+
+                <div class="approval-section">
+
+                    <h2>Final Approval</h2>
+
+                    <label>
+                        Final Approval Status
+                    </label>
+
+                    <select name="final_approval_status" required>
+
+                        <option value="Pending" {% if job.final_approval_status=="Pending" %} selected {% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="Approved" {% if job.final_approval_status=="Approved" %} selected {% endif %}>
+                            Approved
+                        </option>
+
+                        <option value="Rejected" {% if job.final_approval_status=="Rejected" %} selected {% endif %}>
+                            Rejected
+                        </option>
+
+                    </select>
+
+
+                    <label>
+                        Final Approval Remarks
+                    </label>
+
+                    <textarea name="final_approval_remarks"
+                        placeholder="Enter remarks...">{{ job.final_approval_remarks or "" }}</textarea>
+
+                </div>
+
+                <div class="approval-section">
+
+                    <h2>Job Status</h2>
+
+                    <label>
+                        Job Status
+                    </label>
+
+                    <select name="job_status" required>
+
+                        <option value="Pending Approval" {% if job.job_status=="Pending Approval" %} selected {% endif
+                            %}>
+                            Pending Approval
+                        </option>
+
+                        <option value="Approved - Open" {% if job.job_status=="Approved - Open" %} selected {% endif %}>
+                            Approved - Open
+                        </option>
+
+                        <option value="Recruitment in Progress" {% if job.job_status=="Recruitment in Progress" %}
+                            selected {% endif %}>
+                            Recruitment in Progress
+                        </option>
+
+                        <option value="On Hold" {% if job.job_status=="On Hold" %} selected {% endif %}>
+                            On Hold
+                        </option>
+
+                        <option value="Filled" {% if job.job_status=="Filled" %} selected {% endif %}>
+                            Filled
+                        </option>
+
+                        <option value="Closed" {% if job.job_status=="Closed" %} selected {% endif %}>
+                            Closed
+                        </option>
+
+                        <option value="Rejected" {% if job.job_status=="Rejected" %} selected {% endif %}>
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+                <button type="submit" class="save-btn">
+
+                    Save Approvals
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

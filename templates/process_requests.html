@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Processing</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Job Processing</h1>
+
+                <p class="subtitle">
+                    Manage recruitment and hiring progress
+                </p>
+
+            </div>
+
+            <div class="header-actions">
+
+                <a href="/" class="btn secondary">
+                    ← Home
+                </a>
+
+                <a href="/export-excel" class="btn primary">
+                    ↓ Export Excel
+                </a>
+
+            </div>
+
+        </div>
+        <div class="filter-bar">
+
+            <form method="GET" action="/process-requests">
+
+                <div class="filter-group">
+
+                    <label>Search</label>
+
+                    <input type="text" name="search" placeholder="Request ID, employee or position"
+                        value="{{ search }}">
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>Department</label>
+
+                    <select name="department">
+
+                        <option value="">
+                            All Departments
+                        </option>
+
+                        {% for department in departments %}
+
+                        <option value="{{ department }}" {% if selected_department==department %} selected {% endif %}>
+                            {{ department }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>Status</label>
+
+                    <select name="status">
+
+                        <option value="">
+                            All Statuses
+                        </option>
+
+                        <option value="Pending Approval 1" {% if selected_status=="Pending Approval 1" %} selected {%
+                            endif %}>
+                            Pending Approval 1
+                        </option>
+
+                        <option value="Pending Approval 2" {% if selected_status=="Pending Approval 2" %} selected {%
+                            endif %}>
+                            Pending Approval 2
+                        </option>
+
+                        <option value="Processing" {% if selected_status=="Processing" %} selected {% endif %}>
+                            Processing
+                        </option>
+
+                        <option value="Approved" {% if selected_status=="Approved" %} selected {% endif %}>
+                            Approved
+                        </option>
+
+                        <option value="Rejected" {% if selected_status=="Rejected" %} selected {% endif %}>
+                            Rejected
+                        </option>
+
+                        <option value="Closed" {% if selected_status=="Closed" %} selected {% endif %}>
+                            Closed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button type="submit" class="btn primary">
+                    Search
+                </button>
+
+
+                <a href="/process-requests" class="btn secondary">
+                    Clear
+                </a>
+
+            </form>
+
+        </div>
+
+
+        {% if openings %}
+
+        <div class="table-container process-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Job ID</th>
+                        <th>Department</th>
+                        <th>Position</th>
+                        <th>Location</th>
+                        <th>Recruitment Status</th>
+                        <th>Recruiter</th>
+                        <th>Candidates</th>
+                        <th>Shortlisted</th>
+                        <th>Interviewed</th>
+                        <th>Selected</th>
+                        <th>Joining Date</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for job in openings %}
+
+                    <tr>
+
+                        <!-- Job ID -->
+
+                        <td>
+                            <strong>
+                                {{ job.job_id }}
+                            </strong>
+                        </td>
+
+
+                        <!-- Department -->
+
+                        <td>
+                            {{ job.department }}
+                        </td>
+
+
+                        <!-- Position -->
+
+                        <td>
+                            {{ job.position }}
+                        </td>
+
+
+                        <!-- Location -->
+
+                        <td>
+                            {{ job.branch or "-" }}
+                        </td>
+
+
+                        <!-- Recruitment Status -->
+
+                        <td>
+
+                            {% if job.job_status == "Approved - Open" %}
+
+                            <span class="status approved">
+                                Approved - Open
+                            </span>
+
+                            {% elif job.job_status == "Recruitment in Progress" %}
+
+                            <span class="status processing">
+                                Recruitment in Progress
+                            </span>
+
+                            {% elif job.job_status == "Filled" %}
+
+                            <span class="status approved">
+                                Filled
+                            </span>
+
+                            {% elif job.job_status == "On Hold" %}
+
+                            <span class="status pending">
+                                On Hold
+                            </span>
+
+                            {% elif job.job_status == "Rejected" %}
+
+                            <span class="status rejected">
+                                Rejected
+                            </span>
+
+                            {% else %}
+
+                            <span class="status pending">
+                                {{ job.job_status }}
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <!-- Get processing record -->
+
+                        {% set processing = processing_data.get(job.job_id) %}
+
+
+                        <!-- Recruiter -->
+
+                        <td>
+                            {% if processing %}
+                            {{ processing.recruiter or "-" }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+
+
+                        <!-- Candidates -->
+
+                        <td>
+                            {% if processing %}
+                            {{ processing.candidates_received }}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </td>
+
+
+                        <!-- Shortlisted -->
+
+                        <td>
+                            {% if processing %}
+                            {{ processing.shortlisted }}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </td>
+
+
+                        <!-- Interviewed -->
+
+                        <td>
+                            {% if processing %}
+                            {{ processing.interviewed }}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </td>
+
+
+                        <!-- Selected -->
+
+                        <td>
+                            {% if processing %}
+                            {{ processing.selected }}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </td>
+
+
+                        <!-- Joining Date -->
+
+                        <td>
+                            {% if processing %}
+                            {{ processing.joining_date or "-" }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <!-- Action -->
+
+
+                        <td>
+                            <a href="{{ url_for('process_job_details', job_id=job.id) }}" class="view-btn">
+                                Process
+                            </a>
+                        </td>
+
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <h2>No Requests Found</h2>
+
+            <p>
+                There are currently no requests to process.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

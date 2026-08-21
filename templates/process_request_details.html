@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Processing</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Job Processing</h1>
+
+            <p class="subtitle">
+                Job ID: {{ job.job_id }}
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <a href="/" class="btn secondary">
+                ← Home
+            </a>
+
+            <a href="/process-requests" class="btn secondary">
+                ← Back
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- JOB INFORMATION -->
+
+    <div class="details-card">
+
+        <h2>Job Information</h2>
+
+        <div class="details-grid">
+
+            <div>
+                <span>Job ID</span>
+                <strong>{{ job.job_id }}</strong>
+            </div>
+
+            <div>
+                <span>Request Date</span>
+                <strong>
+                    {% if job.request_date %}
+                        {{ job.request_date.strftime("%d-%m-%Y") }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </strong>
+            </div>
+
+            <div>
+                <span>Department</span>
+                <strong>{{ job.department }}</strong>
+            </div>
+
+            <div>
+                <span>Position</span>
+                <strong>{{ job.position }}</strong>
+            </div>
+
+            <div>
+                <span>Vacancy Reason</span>
+                <strong>{{ job.vacancy_reason }}</strong>
+            </div>
+
+            <div>
+                <span>No. of Positions</span>
+                <strong>{{ job.number_of_positions }}</strong>
+            </div>
+
+            <div>
+                <span>Employment Type</span>
+                <strong>{{ job.employment_type or "-" }}</strong>
+            </div>
+
+            <div>
+                <span>Location</span>
+                <strong>{{ job.branch or "-" }}</strong>
+            </div>
+
+            <div>
+                <span>Required By</span>
+                <strong>{{ job.required_by or "-" }}</strong>
+            </div>
+
+            <div>
+                <span>Priority</span>
+                <strong>{{ job.priority or "-" }}</strong>
+            </div>
+
+            <div>
+                <span>Final Approval</span>
+
+                {% if job.final_approval_status == "Approved" %}
+
+                    <span class="status approved">
+                        Approved
+                    </span>
+
+                {% elif job.final_approval_status == "Rejected" %}
+
+                    <span class="status rejected">
+                        Rejected
+                    </span>
+
+                {% else %}
+
+                    <span class="status pending">
+                        {{ job.final_approval_status }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            <div>
+                <span>Job Status</span>
+
+                {% if job.job_status == "Approved - Open" %}
+
+                    <span class="status approved">
+                        Approved - Open
+                    </span>
+
+                {% elif job.job_status == "Recruitment in Progress" %}
+
+                    <span class="status processing">
+                        Recruitment in Progress
+                    </span>
+
+                {% elif job.job_status == "Filled" %}
+
+                    <span class="status approved">
+                        Filled
+                    </span>
+
+                {% elif job.job_status == "On Hold" %}
+
+                    <span class="status pending">
+                        On Hold
+                    </span>
+
+                {% elif job.job_status == "Rejected" %}
+
+                    <span class="status rejected">
+                        Rejected
+                    </span>
+
+                {% else %}
+
+                    <span class="status pending">
+                        {{ job.job_status }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECRUITMENT PROCESSING -->
+
+    <form action="{{ url_for(
+        'update_job_processing',
+        job_id=job.id
+    ) }}" method="POST">
+
+
+        <div class="details-card">
+
+            <h2>Recruitment Processing</h2>
+
+            <div class="form-grid">
+
+
+                <!-- RECRUITER -->
+
+                <div class="form-group">
+
+                    <label>Recruiter</label>
+
+                    <input
+                        type="text"
+                        name="recruiter"
+                        value="{{ processing.recruiter if processing else '' }}"
+                        placeholder="Enter recruiter name">
+
+                </div>
+
+
+                
+
+
+                <!-- HR STATUS -->
+
+                <div class="form-group">
+
+                    <label>HR Status</label>
+
+                    <select name="hr_status">
+
+                        {% set current_hr =
+                            processing.hr_status
+                            if processing
+                            else "Not Started"
+                        %}
+
+                        <option value="Not Started"
+                            {% if current_hr == "Not Started" %}selected{% endif %}>
+                            Not Started
+                        </option>
+
+                        <option value="Sourcing"
+                            {% if current_hr == "Sourcing" %}selected{% endif %}>
+                            Sourcing
+                        </option>
+
+                        <option value="Interview"
+                            {% if current_hr == "Interview" %}selected{% endif %}>
+                            Interview
+                        </option>
+
+                        <option value="Selected"
+                            {% if current_hr == "Selected" %}selected{% endif %}>
+                            Selected
+                        </option>
+
+                        <option value="Joined"
+                            {% if current_hr == "Joined" %}selected{% endif %}>
+                            Joined
+                        </option>
+
+                        <option value="On Hold"
+                            {% if current_hr == "On Hold" %}selected{% endif %}>
+                            On Hold
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CANDIDATES -->
+
+                <div class="form-group">
+
+                    <label>Candidates Received</label>
+
+                    <input
+                        type="number"
+                        name="candidates_received"
+                        min="0"
+                        value="{{ processing.candidates_received if processing else 0 }}">
+
+                </div>
+
+
+                <!-- SHORTLISTED -->
+
+                <div class="form-group">
+
+                    <label>Shortlisted</label>
+
+                    <input
+                        type="number"
+                        name="shortlisted"
+                        min="0"
+                        value="{{ processing.shortlisted if processing else 0 }}">
+
+                </div>
+
+
+                <!-- INTERVIEWED -->
+
+                <div class="form-group">
+
+                    <label>Interviewed</label>
+
+                    <input
+                        type="number"
+                        name="interviewed"
+                        min="0"
+                        value="{{ processing.interviewed if processing else 0 }}">
+
+                </div>
+
+
+                <!-- SELECTED -->
+
+                <div class="form-group">
+
+                    <label>Selected</label>
+
+                    <input
+                        type="number"
+                        name="selected"
+                        min="0"
+                        value="{{ processing.selected if processing else 0 }}">
+
+                </div>
+
+
+                <!-- JOINING DATE -->
+
+                <div class="form-group">
+
+                    <label>Joining Date</label>
+
+                    <input
+                        type="date"
+                        name="joining_date"
+                        value="{{ processing.joining_date if processing else '' }}">
+
+                </div>
+
+
+                <!-- RECRUITMENT STATUS -->
+
+                <div class="form-group">
+
+                    <label>Recruitment Status</label>
+
+                    {% set current_status =
+                        processing.recruitment_status
+                        if processing
+                        else "Not Started"
+                    %}
+
+                    <select name="recruitment_status">
+
+                        <option value="Not Started"
+                            {% if current_status == "Not Started" %}selected{% endif %}>
+                            Not Started
+                        </option>
+
+                        <option value="Recruitment in Progress"
+                            {% if current_status == "Recruitment in Progress" %}selected{% endif %}>
+                            Recruitment in Progress
+                        </option>
+
+                        <option value="On Hold"
+                            {% if current_status == "On Hold" %}selected{% endif %}>
+                            On Hold
+                        </option>
+
+                        <option value="Filled"
+                            {% if current_status == "Filled" %}selected{% endif %}>
+                            Filled
+                        </option>
+
+                        <option value="Closed"
+                            {% if current_status == "Closed" %}selected{% endif %}>
+                            Closed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- REMARKS -->
+
+                <div class="form-group"
+                     style="grid-column: 1 / -1;">
+
+                    <label>Remarks</label>
+
+                    <textarea
+                        name="remarks"
+                        rows="4"
+                        placeholder="Enter recruitment remarks">{{ processing.remarks if processing else '' }}</textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="form-actions">
+
+            <a href="/process-requests"
+               class="btn secondary">
+                Cancel
+            </a>
+
+            <button type="submit"
+                    class="btn primary">
+                Save Changes
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

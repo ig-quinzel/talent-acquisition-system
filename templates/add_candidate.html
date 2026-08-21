@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Candidate</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Add Candidate</h1>
+
+            <p class="subtitle">
+                Add a candidate to a job opening
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <a
+                href="/"
+                class="btn secondary"
+            >
+                ← Home
+            </a>
+
+            <a
+                href="/candidates"
+                class="btn secondary"
+            >
+                ← Candidates
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="details-card">
+
+        <h2>Candidate Information</h2>
+
+
+        <form
+            action="/candidates/submit"
+            method="POST"
+        >
+
+            <div class="form-grid">
+
+
+                <!-- JOB -->
+
+                <div class="form-group">
+
+                    <label>
+                        Job Opening
+                    </label>
+
+                    <select
+                        name="job_id"
+                        required
+                    >
+
+                        <option value="">
+                            Select Job
+                        </option>
+
+                        {% for job in jobs %}
+
+                        <option value="{{ job.job_id }}">
+
+                            {{ job.job_id }}
+                            -
+                            {{ job.position }}
+                            -
+                            {{ job.department }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Candidate Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="candidate_name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                    >
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Phone
+                    </label>
+
+                    <input
+                        type="text"
+                        name="phone"
+                    >
+
+                </div>
+
+
+                <!-- QUALIFICATION -->
+
+                <div class="form-group">
+
+                    <label>
+                        Qualification
+                    </label>
+
+                    <input
+                        type="text"
+                        name="qualification"
+                    >
+
+                </div>
+
+
+                <!-- EXPERIENCE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Experience
+                    </label>
+
+                    <input
+                        type="text"
+                        name="experience"
+                        placeholder="e.g. 2 years"
+                    >
+
+                </div>
+
+
+                <!-- RESUME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Resume
+                    </label>
+
+                    <input
+                        type="text"
+                        name="resume"
+                        placeholder="Resume file name / link"
+                    >
+
+                </div>
+
+
+                <!-- APPLICATION DATE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Application Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="application_date"
+                    >
+
+                </div>
+
+
+                <!-- SOURCE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Source
+                    </label>
+
+                    <select name="source">
+
+                        <option value="">
+                            Select Source
+                        </option>
+
+                        <option value="LinkedIn">
+                            LinkedIn
+                        </option>
+
+                        <option value="Indeed">
+                            Indeed
+                        </option>
+
+                        <option value="Referral">
+                            Referral
+                        </option>
+
+                        <option value="Walk-in">
+                            Walk-in
+                        </option>
+
+                        <option value="Company Website">
+                            Company Website
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <a
+                    href="/candidates"
+                    class="btn secondary"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn primary"
+                >
+                    Add Candidate
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Approval History</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Approval History</h1>
+
+                <p class="subtitle">
+                    {{ req.request_id }} — {{ req.position }}
+                </p>
+
+            </div>
+
+            <div class="header-actions">
+
+                <a href="/" class="btn secondary">
+                    ← Home
+                </a>
+
+                <a href="/process-requests" class="btn secondary">
+                    ← Back
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="details-card">
+
+            <h2>Request Information</h2>
+
+            <div class="details-grid">
+
+                <div>
+                    <span>Request ID</span>
+                    <strong>{{ req.request_id }}</strong>
+                </div>
+
+                <div>
+                    <span>Employee</span>
+                    <strong>{{ req.employee_name }}</strong>
+                </div>
+
+                <div>
+                    <span>Department</span>
+                    <strong>{{ req.department }}</strong>
+                </div>
+
+                <div>
+                    <span>Position</span>
+                    <strong>{{ req.position }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="details-card">
+
+            <h2>History</h2>
+
+            {% if history %}
+
+            <div class="history-list">
+
+                {% for item in history %}
+
+                <div class="history-item">
+
+                    <div class="history-dot"></div>
+
+                    <div class="history-content">
+
+                        <strong>
+                            {{ item.action }}
+                        </strong>
+
+                        <p>
+                            By:
+                            {{ item.performed_by or "System" }}
+                        </p>
+
+                        {% if item.remarks %}
+
+                        <p>
+                            {{ item.remarks }}
+                        </p>
+
+                        {% endif %}
+
+                        <small>
+
+                            {{ item.timestamp.strftime(
+                            "%d-%m-%Y %I:%M %p"
+                            ) }}
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <p class="no-history">
+                No processing history available.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

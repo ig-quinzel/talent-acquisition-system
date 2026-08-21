@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>View Requests</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <div>
+                <h1>View Requests</h1>
+                <p class="subtitle">
+                    View all submitted talent acquisition requests
+                </p>
+            </div>
+            <div class="header-actions">
+
+                <a href="/" class="btn secondary">
+                    ← Home
+                </a>
+                <a href="/request" class="btn primary">
+                    + New Request
+                </a>
+
+            </div>
+
+
+
+
+        </div>
+        <div class="filter-bar">
+
+            <form method="GET" action="/view-requests">
+
+                <div class="filter-group">
+
+                    <label>Search</label>
+
+                    <input type="text" name="search" placeholder="Request ID, employee or position"
+                        value="{{ search }}">
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>Department</label>
+
+                    <select name="department">
+
+                        <option value="">
+                            All Departments
+                        </option>
+
+                        {% for department in departments %}
+
+                        <option value="{{ department }}" {% if selected_department==department %} selected {% endif %}>
+                            {{ department }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>Status</label>
+
+                    <select name="status">
+
+                        <option value="">
+                            All Statuses
+                        </option>
+
+                        <option value="Approved - Open" {% if selected_status=="Approved - Open" %}selected{% endif %}>
+                            Approved - Open
+                        </option>
+
+                        <option value="Recruitment in Progress" {% if selected_status=="Recruitment in Progress"
+                            %}selected{% endif %}>
+                            Recruitment in Progress
+                        </option>
+
+                        <option value="On Hold" {% if selected_status=="On Hold" %}selected{% endif %}>
+                            On Hold
+                        </option>
+
+                        <option value="Filled" {% if selected_status=="Filled" %}selected{% endif %}>
+                            Filled
+                        </option>
+
+                        <option value="Closed" {% if selected_status=="Closed" %}selected{% endif %}>
+                            Closed
+                        </option>
+
+                        <option value="Rejected" {% if selected_status=="Rejected" %}selected{% endif %}>
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button type="submit" class="btn primary">
+                    Search
+                </button>
+
+
+                <a href="/view-requests" class="btn secondary">
+                    Clear
+                </a>
+
+            </form>
+
+        </div>
+
+
+        {% if requests %}
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Employee</th>
+                        <th>Department</th>
+                        <th>Position</th>
+                        <th>Vacancy Reason</th>
+                        <th>No. of Positions</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for req in requests %}
+
+                    <tr>
+
+                        <td>
+                            <strong>{{ req.request_id }}</strong>
+                        </td>
+
+                        <td>
+                            {{ req.employee_name }}
+                        </td>
+
+                        <td>
+                            {{ req.department }}
+                        </td>
+
+                        <td>
+                            {{ req.position }}
+                        </td>
+
+                        <td>
+                            {{ req.vacancy_reason }}
+                        </td>
+
+                        <td>
+                            {{ req.number_of_positions }}
+                        </td>
+
+                        <td>
+                            {{ req.request_date.strftime('%d-%m-%Y') }}
+                        </td>
+
+                        <td>
+
+                            {% set job_status = job_status_data.get(req.id, "Not Created") %}
+
+                            {% if job_status == "Approved - Open" %}
+
+                            <span class="status approved">
+                                Approved - Open
+                            </span>
+
+                            {% elif job_status == "Recruitment in Progress" %}
+
+                            <span class="status processing">
+                                Recruitment in Progress
+                            </span>
+
+                            {% elif job_status == "Filled" %}
+
+                            <span class="status approved">
+                                Filled
+                            </span>
+
+                            {% elif job_status == "On Hold" %}
+
+                            <span class="status pending">
+                                On Hold
+                            </span>
+
+                            {% elif job_status == "Rejected" %}
+
+                            <span class="status rejected">
+                                Rejected
+                            </span>
+
+                            {% elif job_status == "Closed" %}
+
+                            <span class="status rejected">
+                                Closed
+                            </span>
+
+                            {% elif job_status == "Not Created" %}
+
+                            <span class="status pending">
+                                Not Created
+                            </span>
+
+                            {% else %}
+
+                            <span class="status pending">
+                                {{ job_status }}
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            <a href="{{ url_for('request_details', request_id=req.id) }}" class="view-btn">
+                                View
+                            </a>
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <h2>No Requests Found</h2>
+
+            <p>
+                No talent acquisition requests have been submitted yet.
+            </p>
+
+            <a href="/request" class="btn primary">
+                Create First Request
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Talent Acquisition</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-title">
+                    NIKSHAN
+                </div>
+
+                <div class="brand-subtitle">
+                    Talent Acquisition
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+                <a href="/" class="nav-item active">
+
+                    <span>⌂</span>
+                    <span>Home</span>
+
+                </a>
+
+
+                <a href="/request" class="nav-item">
+
+                    <span>＋</span>
+                    <span>Request</span>
+
+                </a>
+
+
+                <a href="/view-requests" class="nav-item">
+
+                    <span>▤</span>
+                    <span>View Requests</span>
+
+                </a>
+                <a href="/job-openings" class="nav-item">
+
+                    <span>💼</span>
+                    <span>Job Openings</span>
+
+                </a>
+
+
+                <a href="/process-requests" class="nav-item">
+
+                    <span>⚙</span>
+                    <span>Process Requests</span>
+
+                </a>
+                <a href="/candidates" class="nav-item">
+
+                    <span>👤</span>
+                    <span>Candidates</span>
+
+                </a>
+                <a href="/dashboard" class="nav-item">
+
+                    <span>▥</span>
+                    <span>Dashboard</span>
+
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-footer">
+
+                Talent Acquisition System
+                <br>
+
+                <small>
+                    Nikshan Electronics
+                </small>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+            <div class="home-header">
+
+                <div>
+
+                    <h1>
+                        Talent Acquisition Management
+                    </h1>
+
+                    <p>
+                        Manage employee recruitment and vacancy requests
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- OPTIONS -->
+
+            <div class="home-grid">
+
+
+                <a href="/request" class="home-card">
+
+                    <div class="home-icon">
+                        ＋
+                    </div>
+
+                    <h2>
+                        Request
+                    </h2>
+
+                    <p>
+                        Create a new talent acquisition
+                        or vacancy request.
+                    </p>
+
+                    <span class="card-link">
+                        Create Request →
+                    </span>
+
+                </a>
+
+
+                <a href="/view-requests" class="home-card">
+
+                    <div class="home-icon">
+                        ▤
+                    </div>
+
+                    <h2>
+                        View Requests
+                    </h2>
+
+                    <p>
+                        View all submitted talent
+                        acquisition requests.
+                    </p>
+
+                    <span class="card-link">
+                        View Requests →
+                    </span>
+
+                </a>
+                <a href="/job-openings" class="home-card">
+
+                    <div class="home-icon">
+                        💼
+                    </div>
+
+                    <h2>
+                        Job Openings
+                    </h2>
+
+                    <p>
+                        View approved job openings and
+                        manage their approval status.
+                    </p>
+
+                    <span class="card-link">
+                        View Job Openings →
+                    </span>
+
+                </a>
+
+
+                <a href="/process-requests" class="home-card">
+
+                    <div class="home-icon">
+                        ⚙
+                    </div>
+
+                    <h2>
+                        Process Requests
+                    </h2>
+
+                    <p>
+                        Process approvals and update
+                        recruitment information.
+                    </p>
+
+                    <span class="card-link">
+                        Process Requests →
+                    </span>
+
+                </a>
+                <a href="/candidates" class="home-card">
+
+                    <div class="home-icon">
+                        👤
+                    </div>
+
+                    <h2>
+                        Candidates
+                    </h2>
+
+                    <p>
+                        Manage candidates and track their
+                        recruitment progress.
+                    </p>
+
+                    <span class="card-link">
+                        View Candidates →
+                    </span>
+
+                </a>
+
+
+                <a href="/dashboard" class="home-card">
+
+                    <div class="home-icon">
+                        ▥
+                    </div>
+
+                    <h2>
+                        Dashboard
+                    </h2>
+
+                    <p>
+                        View recruitment request
+                        statistics and insights.
+                    </p>
+
+                    <span class="card-link">
+                        Open Dashboard →
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

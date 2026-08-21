@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Request Details</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="page-header">
+
+
+            <div>
+                <h1>Request Details</h1>
+
+                <p class="subtitle">
+                    Request ID: {{ req.request_id }}
+                </p>
+            </div>
+            <div class="header-actions">
+
+                <a href="/" class="btn secondary">
+                    ← Home
+                </a>
+                <a href="/view-requests" class="btn secondary">
+                    ← Back
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- Employee Details -->
+
+        <div class="details-card">
+
+            <h2>Employee Details</h2>
+
+            <div class="details-grid">
+
+                <div>
+                    <span>Employee Name</span>
+                    <strong>{{ req.employee_name }}</strong>
+                </div>
+
+                <div>
+                    <span>Employee ID</span>
+                    <strong>{{ req.employee_id or "-" }}</strong>
+                </div>
+
+                <div>
+                    <span>Department</span>
+                    <strong>{{ req.department }}</strong>
+                </div>
+
+                <div>
+                    <span>Designation</span>
+                    <strong>{{ req.designation or "-" }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Vacancy Details -->
+
+        <div class="details-card">
+
+            <h2>Vacancy Details</h2>
+
+            <div class="details-grid">
+
+                <div>
+                    <span>Position</span>
+                    <strong>{{ req.position }}</strong>
+                </div>
+
+                <div>
+                    <span>Vacancy Reason</span>
+                    <strong>{{ req.vacancy_reason }}</strong>
+                </div>
+
+                <div>
+                    <span>Number of Positions</span>
+                    <strong>{{ req.number_of_positions }}</strong>
+                </div>
+
+                <div>
+                    <span>Employment Type</span>
+                    <strong>{{ req.employment_type or "-" }}</strong>
+                </div>
+
+                <div>
+                    <span>Location</span>
+                    <strong>{{ req.location or "-" }}</strong>
+                </div>
+
+                <div>
+                    <span>Required By</span>
+                    <strong>{{ req.required_by or "-" }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Candidate Requirements -->
+
+        <div class="details-card">
+
+            <h2>Candidate Requirements</h2>
+
+            <div class="details-grid">
+
+                <div>
+                    <span>Experience</span>
+                    <strong>{{ req.experience or "-" }}</strong>
+                </div>
+
+                <div>
+                    <span>Qualification</span>
+                    <strong>{{ req.qualification or "-" }}</strong>
+                </div>
+
+            </div>
+
+            <div class="detail-full">
+
+                <span>Required Skills</span>
+
+                <p>
+                    {{ req.skills or "-" }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Current Status -->
+
+        <div class="details-card">
+
+            <h2>Request Status</h2>
+
+            <div class="details-grid">
+
+                <div>
+                    <span>Approval 1</span>
+                    <strong>{{ job.approval1_status if job else req.approval1_status }}</strong>
+                </div>
+
+                <div>
+                    <span>Approval 2</span>
+                    <strong>{{ job.approval2_status if job else req.approval2_status }}</strong>
+                </div>
+
+                <div>
+                    <span>HR Status</span>
+                    <strong>{{ job.hr_status if job else req.hr_status }}</strong>
+                </div>
+
+                <div>
+                    <span>Final Status</span>
+                    <strong>{{ job.final_approval_status if job else req.final_status }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
